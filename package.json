@@ -1,0 +1,20 @@
+{
+  "name": "bankstuff",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "concurrently --kill-others \"npm run dev --prefix api\" \"npm run dev --prefix next\"",
+    "clean:api": "npm run clean --prefix api"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
+  }
+}
