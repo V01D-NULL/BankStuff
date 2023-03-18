@@ -18,10 +18,24 @@ export const loadTypeDefinitions = (): DocumentNode => {
 export const loadResolvers = (): {} => {
   let resolvers = {};
 
-  globSync('./gql/resolvers/*.ts').forEach(function (file) {
-    const newResolver = import(path.resolve(file));
-    resolvers = { ...resolvers, ...newResolver };
-  });
+  const files = globSync('./gql/resolvers/*.ts');
+  for (let file of files) {
+    const newResolver = require(path.resolve(file));
+    console.log(newResolver);
 
-  return resolvers;
+    resolvers = { ...resolvers, ...newResolver };
+  }
+
+  // @ts-ignore
+  const { BankAccount } = resolvers;
+
+  //@ts-ignore
+  delete resolvers.BankAccount;
+
+  return {
+    Query: {
+      ...resolvers,
+    },
+    BankAccount,
+  };
 };

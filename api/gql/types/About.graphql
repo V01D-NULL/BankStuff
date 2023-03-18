@@ -1,0 +1,8 @@
+type About {
+  description: String
+  github: String
+}
+
+extend type Query {
+  About: About
+}

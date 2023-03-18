@@ -1,0 +1,22 @@
+#import 'Balance.graphql'
+
+type Institution {
+  name: String
+}
+
+type BankAccount {
+  id: ID
+  token: String
+  type: String
+  subType: String
+  status: String
+  name: String
+  lastFour: Int
+  institution: Institution
+  currency: String
+  Balance: Balance
+}
+
+type Query {
+  Account(token: String!): [BankAccount]!
+}

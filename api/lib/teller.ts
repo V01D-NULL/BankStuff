@@ -1,31 +1,29 @@
-import ITellerData, { ITellerApi } from 'types/teller';
-import https from 'https';
-import fs from 'fs';
+// @ts-nocheck
+const https = require('https');
+const fs = require('fs');
 
-const TellerApi = {} as ITellerApi;
+const TellerApi = {};
 
-const options = {
-  hostname: 'api.teller.io',
-  port: 443,
-  path: '/accounts',
-  method: 'GET',
-  key: fs.readFileSync('../certificates/private_key.pem'),
-  cert: fs.readFileSync('../certificates/certificate.pem'),
-  headers: {
-    Authorization: '',
-  },
-};
-
-TellerApi.getAccount = (token: string): Promise<ITellerData[]> => {
-  options.headers.Authorization =
-    'Basic ' + Buffer.from(token + ':').toString('base64url');
+TellerApi.request = (token, optionsOverride) => {
+  const options = {
+    hostname: 'api.teller.io',
+    port: 443,
+    path: '/accounts',
+    method: 'GET',
+    key: fs.readFileSync('../certificates/private_key.pem'),
+    cert: fs.readFileSync('../certificates/certificate.pem'),
+    headers: {
+      Authorization: 'Basic ' + Buffer.from(token + ':').toString('base64url'),
+    },
+    ...optionsOverride,
+  };
 
   return new Promise((resolve) => {
     const req = https.request(options, (res) => {
-      res.on('data', (data) => resolve(data.toString()));
+      res.on('data', (data) => resolve(JSON.parse(data.toString())));
     });
     req.end();
   });
 };
 
-export default TellerApi;
+module.exports = TellerApi;

@@ -1,0 +1,4 @@
+type Balance {
+  ledger: Float
+  available: Float
+}
