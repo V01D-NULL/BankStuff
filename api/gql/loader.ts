@@ -21,8 +21,6 @@ export const loadResolvers = (): {} => {
   const files = globSync('./gql/resolvers/*.ts');
   for (let file of files) {
     const newResolver = require(path.resolve(file));
-    console.log(newResolver);
-
     resolvers = { ...resolvers, ...newResolver };
   }
 
