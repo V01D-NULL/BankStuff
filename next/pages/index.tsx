@@ -1,27 +1,18 @@
-import ConnectIntegration from '@components/integration/connect';
-import TokenAuth from '@components/auth/token';
-import { useState } from 'react';
+import QueryAccountData from '@components/account/account-data';
+import ConnectBankAccount from '@components/account/connect';
+import { useEffect, useState } from 'react';
 
 const Home = () => {
-  const [connectIntegration, setConnectIntegration] = useState(false);
+  const [token, setToken] = useState<string>('');
 
   return (
-    <div>
-      <button
-        disabled={connectIntegration}
-        onClick={() => setConnectIntegration(!connectIntegration)}
-      >
-        Add new account
-      </button>
-      {connectIntegration && (
-        <ConnectIntegration destroy={() => setConnectIntegration(false)} />
+    <>
+      {!token.length ? (
+        <ConnectBankAccount success={setToken} />
+      ) : (
+        <QueryAccountData token={token} />
       )}
-
-      <br />
-      <br />
-
-      <TokenAuth />
-    </div>
+    </>
   );
 };
 

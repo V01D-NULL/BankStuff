@@ -2,11 +2,11 @@ import Script from 'next/script';
 import { useState } from 'react';
 import { getApiUrl, getAppId } from '../../util/config';
 
-interface ConnectIntegrationProps {
-  destroy: Function;
+interface ConnectBankAccountProps {
+  success: Function;
 }
 
-const ConnectIntegration = ({ destroy }: ConnectIntegrationProps) => {
+const ConnectBankAccount = ({ success }: ConnectBankAccountProps) => {
   const [tellerInitialized, setTellerInitialized] = useState(false);
   const [tellerConnect, setTellerConnect] = useState<ITellerConnect | null>(
     null
@@ -26,18 +26,11 @@ const ConnectIntegration = ({ destroy }: ConnectIntegrationProps) => {
 
         onSuccess: function ({ accessToken }: IEnrollment) {
           console.log('User enrolled successfully', accessToken);
-          fetch(`http://${getApiUrl()}:8082/connect?token=${accessToken}`, {
-            method: 'post',
-            headers: {
-              Accept: 'application/json',
-            },
-          });
-          destroy();
+          success(accessToken);
         },
 
         onExit: function () {
           console.log('User closed Teller Connect');
-          destroy();
         },
       })
     );
@@ -51,4 +44,4 @@ const ConnectIntegration = ({ destroy }: ConnectIntegrationProps) => {
   );
 };
 
-export default ConnectIntegration;
+export default ConnectBankAccount;

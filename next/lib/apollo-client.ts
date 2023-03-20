@@ -1,5 +1,3 @@
-// ./apollo-client.js
-
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { getApiUrl } from '../util/config';
 
